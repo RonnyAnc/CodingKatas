@@ -1,5 +1,3 @@
-using NUnit.Framework.Internal.Execution;
-
 namespace PigLatin.Tests;
 
 public static class PigLatinConverter
