@@ -10,21 +10,38 @@ public static class PigLatinConverter
     };
     private static readonly List<string> ConsonantsWithTwoCharacters = new()
     {
-        "ch", "qu"
+        "ch", "qu", "th", "rh"
+    };
+    private static readonly List<string> ConsonantsWithThreeCharacters = new()
+    {
+        "thr", "sch"
     };
 
-    public static string Convert(string word)
+    public static string Convert(string sentence)
     {
-        return word switch
-        {
-            var str when NonConsonantInitialSounds.Any(str.StartsWith) => 
-                $"{word}ay", 
-            var str when ConsonantsWithTwoCharacters.Any(str.StartsWith) => 
-                $"{word.Substring(2, word.Length - 2)}{word.Substring(0, 2)}ay",
-            var str when !NonConsonantInitialSounds.Any(str.StartsWith) && str.Substring(1, 2) == "qu" => 
-                $"{word.Substring(3, word.Length - 3)}{word.Substring(0, 3)}ay",
-            _ => 
-                $"{word.Substring(1, word.Length - 1)}{word.First()}ay"
-        };
+        bool DoesStartWithTwoConsonants(string word) => ConsonantsWithTwoCharacters.Any(word.StartsWith);
+
+        bool DoesStartWithConsonantFollowedByQu(string word) => 
+            !NonConsonantInitialSounds.Any(word.StartsWith) && word[1..3] == "qu";
+
+        bool DoesStartWithThreeConsonants(string word) =>
+            word.Length > 2 
+            && (ConsonantsWithThreeCharacters.Any(word.StartsWith) ||
+                DoesStartWithConsonantFollowedByQu(word));
+
+        bool DoesStartWithVowelSound(string word) => NonConsonantInitialSounds.Any(word.StartsWith);
+
+        string ConvertWord(string word) => word switch
+            {
+                _ when DoesStartWithVowelSound(word) => $"{word}ay",
+                _ when DoesStartWithThreeConsonants(word) => $"{word[3..]}{word[..3]}ay",
+                _ when DoesStartWithTwoConsonants(word) => $"{word[2..]}{word[..2]}ay",
+                _ => $"{word[1..]}{word.First()}ay"
+            };
+
+        return sentence
+            .Split(" ")
+            .Select(ConvertWord)
+            .Aggregate((w1, w2) => $"{w1} {w2}");
     }
 }
