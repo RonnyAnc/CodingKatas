@@ -1,6 +1,6 @@
 namespace PigLatin.Tests;
 
-public static class PigLatinConverter
+public static class PigLatinTranslator
 {
     private static readonly List<string> NonConsonantInitialSounds = new()
     {
@@ -15,7 +15,7 @@ public static class PigLatinConverter
         "thr", "sch"
     };
 
-    public static string Convert(string sentence)
+    public static string Translate(string sentence)
     {
         bool DoesStartWithTwoConsonants(string word) => ConsonantsWithTwoCharacters.Any(word.StartsWith);
 
@@ -29,7 +29,7 @@ public static class PigLatinConverter
 
         bool DoesStartWithVowelSound(string word) => NonConsonantInitialSounds.Any(word.StartsWith);
 
-        string ConvertWord(string word) => word switch
+        string TranslateWord(string word) => word switch
             {
                 _ when DoesStartWithVowelSound(word) => $"{word}ay",
                 _ when DoesStartWithThreeConsonants(word) => $"{word[3..]}{word[..3]}ay",
@@ -39,7 +39,7 @@ public static class PigLatinConverter
 
         return sentence
             .Split(" ")
-            .Select(ConvertWord)
+            .Select(TranslateWord)
             .Aggregate((w1, w2) => $"{w1} {w2}");
     }
 }

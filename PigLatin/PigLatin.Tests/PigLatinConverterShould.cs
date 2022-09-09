@@ -16,14 +16,14 @@ public class PigLatinConverterShould
     [TestCase("u", "uay")]
     public void add_ay_suffix_when_word_starts_with_vowel(string word, string pigLatinWord)
     {
-        PigLatinConverter.Convert(word).Should().Be(pigLatinWord);
+        PigLatinTranslator.Translate(word).Should().Be(pigLatinWord);
     }
     
     [TestCase("xr", "xray")]
     [TestCase("yt", "ytay")]
     public void add_ay_suffix_when_word_starts_with_vowel_sound(string word, string pigLatinWord)
     {
-        PigLatinConverter.Convert(word).Should().Be(pigLatinWord);
+        PigLatinTranslator.Translate(word).Should().Be(pigLatinWord);
     }
     
     [TestCase("pig", "igpay")]
@@ -35,7 +35,7 @@ public class PigLatinConverterShould
     [TestCase("my",    "ymay")]
     public void move_initial_letter_to_the_end_followed_by_ay_when_word_starts_with_consonant(string word, string pigLatinWord)
     {
-        PigLatinConverter.Convert(word).Should().Be(pigLatinWord);
+        PigLatinTranslator.Translate(word).Should().Be(pigLatinWord);
     }
     
     [TestCase("queen", "eenquay")]
@@ -44,7 +44,7 @@ public class PigLatinConverterShould
     [TestCase("rhythm", "ythmrhay")]
     public void move_two_characters_consonants_together_to_the_end(string word, string pigLatinWord)
     {
-        PigLatinConverter.Convert(word).Should().Be(pigLatinWord);
+        PigLatinTranslator.Translate(word).Should().Be(pigLatinWord);
     }
     
     [TestCase("square", "aresquay")]
@@ -52,7 +52,7 @@ public class PigLatinConverterShould
     public void consider_a_consonant_with_three_characters_when_word_starts_with_consonant_followed_by_qu(
         string word, string pigLatinWord)
     {
-        PigLatinConverter.Convert(word).Should().Be(pigLatinWord);
+        PigLatinTranslator.Translate(word).Should().Be(pigLatinWord);
     }
     
     [TestCase("school", "oolschay")]
@@ -60,7 +60,7 @@ public class PigLatinConverterShould
     public void move_three_characters_consonants_to_the_end_followed_by_ay(
         string word, string pigLatinWord)
     {
-        PigLatinConverter.Convert(word).Should().Be(pigLatinWord);
+        PigLatinTranslator.Translate(word).Should().Be(pigLatinWord);
     }
 
     [Test]
@@ -68,6 +68,6 @@ public class PigLatinConverterShould
     {
         const string sentence = "quick fast run";
         const string expectedPigLatinSentence = "ickquay astfay unray";
-        PigLatinConverter.Convert(sentence).Should().Be(expectedPigLatinSentence);
+        PigLatinTranslator.Translate(sentence).Should().Be(expectedPigLatinSentence);
     }
 }
